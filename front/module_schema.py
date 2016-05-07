@@ -1,5 +1,5 @@
 from tkinter import Canvas
-from module import Module
+from front.module import Module
 
 
 class ModuleSchema(Canvas):

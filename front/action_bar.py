@@ -1,6 +1,6 @@
 from tkinter import Button
-from module import Module
-from new_module_dialog import NewModuleDialog
+from front.module import Module
+from front.new_module_dialog import NewModuleDialog
 
 
 class ActionBarManager():
