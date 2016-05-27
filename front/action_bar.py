@@ -1,6 +1,6 @@
 from tkinter import Button
 from front.module import Module
-from front.new_module_dialog import NewModuleDialog
+from front.dialogs import TextDialog
 
 
 class ActionBarManager():
@@ -22,12 +22,13 @@ class ActionBarManager():
         compile_button.pack(pady=2)
 
     def new_module_action(self):
-        new_module_dialog = NewModuleDialog(self.window)
+        new_module_dialog = TextDialog(self.window,
+                                       "Choose new module name", "Module name")
 
         self.window.wait_window(new_module_dialog.dialog)
 
-        if new_module_dialog.new_name is not None:
-            new_module = Module(new_module_dialog.new_name)
+        if new_module_dialog.field_value is not None:
+            new_module = Module(new_module_dialog.field_value)
             self.schema_module.add_module(new_module)
             self.schema_module.refresh()
 

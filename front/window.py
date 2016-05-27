@@ -1,43 +1,30 @@
 from tkinter import *
 from front.module_schema import ModuleSchema
 from front.action_bar import ActionBarManager
-from back.console import Console
+from front.execution_frame import ExecutionFrame
 
 
-def launch_bluep():
-    """ Main method that launch tkinter interface"""
-    window = Tk()
+class MainWindow(Tk):
+    def __init__(self):
+        Tk.__init__(self)
 
-    graph_frame = Frame(window)
-    graph_frame.pack(side=TOP, pady=4)
+        graph_frame = Frame(self)
+        graph_frame.pack(side=TOP, pady=4)
 
-    execution_frame = Frame(window, background='yellow')
-    execution_frame.pack(side=BOTTOM, pady=4)
+        self.execution_frame = ExecutionFrame(self, background='green')
+        self.execution_frame.pack(side=BOTTOM, pady=4)
 
-    text_box = Text(execution_frame, wrap='word', height=8)
-    text_box.pack()
+        schema_frame = Frame(graph_frame)
+        schema_frame.pack(side=RIGHT)
 
-    console = Console(sys.stdout)
-    console.eval_command("a=2")
+        action_frame = Frame(graph_frame)
+        action_frame.pack(side=LEFT)
 
-    schema_frame = Frame(graph_frame)
-    schema_frame.pack(side=RIGHT)
+        module_schema = ModuleSchema(schema_frame, width=400,
+                                     height=400, background='yellow')
+        module_schema.pack()
 
-    action_frame = Frame(graph_frame)
-    action_frame.pack(side=LEFT)
+        action_bar_manager = ActionBarManager(action_frame,
+                                              module_schema, self)
 
-    # test_button = Button(execution_frame, text="CONSOLE")
-    # test_button.pack(side=RIGHT)
-
-    module_schema = ModuleSchema(schema_frame, width=400,
-                                 height=400, background='yellow')
-    module_schema.pack()
-
-    action_bar_manager = ActionBarManager(action_frame,
-                                          module_schema, window)
-
-    console = Console(sys.stdout)
-    text_box.insert(END, console.eval_command("a=2"))
-    text_box.insert(END, console.eval_command("print(a)"))
-
-    window.mainloop()
+        self.mainloop()
