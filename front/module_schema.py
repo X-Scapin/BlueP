@@ -5,11 +5,25 @@ from front.module import Module
 
 
 class ModuleSchema(Canvas):
-    def __init__(self, frame, width, height, background):
+    def __init__(self, frame, workspace, width, height, background):
         Canvas.__init__(self, frame, width=width,
                         height=height, background=background)
         self.module_list = list()
         self.bind("<Double-Button-1>", self.double_click)
+        self.workspace = workspace
+        self.load_existing_modules()
+
+    def load_existing_modules(self):
+        for(dirpath, dirnames, filenames) in os.walk(self.workspace):
+            for file in filenames:
+                print(file[-2:])
+                if(file[-2:] == "py"):
+                    print(file)
+                    new_module = Module(file, self.workspace)
+                    self.add_module(new_module)
+                    self.refresh()
+
+            break
 
     def add_module(self, module):
         self.new_module_placement(module)

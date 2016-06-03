@@ -5,6 +5,8 @@ class Module():
     height = 100
 
     def __init__(self, title, directory):
+        if(title[-3:] == ".py"):
+            title = title[:-3]
         self.title = title
         self.x = 15
         self.y = 50
@@ -14,7 +16,7 @@ class Module():
 
     def compute_python_path(self):
         #TODO check .py
-        self.py_file = self.directory +  "/" + self.title + ".py"
+        self.py_file = self.directory + "/" + self.title + ".py"
 
     def contains(self, x, y):
         if(x > self.x and x < self.x + Module.width):

@@ -20,7 +20,7 @@ class MainWindow(Tk):
         action_frame = Frame(graph_frame)
         action_frame.pack(side=LEFT)
 
-        module_schema = ModuleSchema(schema_frame, width=400,
+        module_schema = ModuleSchema(schema_frame, workspace, width=400,
                                      height=400, background='yellow')
         module_schema.pack()
 
