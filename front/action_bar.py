@@ -28,9 +28,10 @@ class ActionBarManager():
         self.window.wait_window(new_module_dialog.dialog)
 
         if new_module_dialog.field_value is not None:
-            new_module = Module(new_module_dialog.field_value)
+            new_module = Module(new_module_dialog.field_value, self.window.workspace)
             self.schema_module.add_module(new_module)
             self.schema_module.refresh()
+            self.create_python_module(new_module)
 
     def save_action(self):
         # TODO
@@ -39,3 +40,6 @@ class ActionBarManager():
     def compile_action(self):
         # TODO
         print("TODO")
+
+    def create_python_module(self, module):
+        open(module.py_file, 'a').close()

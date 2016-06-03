@@ -1,3 +1,5 @@
+import os
+import subprocess
 from tkinter import Canvas
 from front.module import Module
 
@@ -7,6 +9,7 @@ class ModuleSchema(Canvas):
         Canvas.__init__(self, frame, width=width,
                         height=height, background=background)
         self.module_list = list()
+        self.bind("<Double-Button-1>", self.double_click)
 
     def add_module(self, module):
         self.new_module_placement(module)
@@ -32,3 +35,19 @@ class ModuleSchema(Canvas):
     def refresh(self):
         # TODO clear
         self.display_modules()
+
+    def double_click(self, event):
+        for module in self.module_list:
+            if(ModuleSchema.hit_module(module, event.x, event.y)):
+                ModuleSchema.edit_file(module)
+
+    def hit_module(module, x, y):
+        return module.contains(x, y)
+
+    def edit_file(module):
+        if(os.name is "nt"):
+            os.system(module.py_file)
+        else if(os.name is "posix"):
+            subprocess.call(["xdg-open", module.py_file])
+        else:
+            print("Unsupported os")

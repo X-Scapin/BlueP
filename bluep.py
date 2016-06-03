@@ -1,4 +1,5 @@
 import sys
+import os
 from front.window import MainWindow
 from front.dialogs import TextDialog
 
@@ -9,7 +10,7 @@ class BlueP():
         self.define_workspace()
 
         if self.workspace is not None:
-            self.main_window = MainWindow()
+            self.main_window = MainWindow(self.workspace)
 
     def define_workspace(self):
         workspace_dialog = TextDialog(None, "Define workspace",
@@ -25,6 +26,8 @@ class BlueP():
         else:
             return True
 
+# print(os.getcwd())
 BlueP()
+
 
 # print(sys.version)

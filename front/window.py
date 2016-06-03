@@ -5,9 +5,9 @@ from front.execution_frame import ExecutionFrame
 
 
 class MainWindow(Tk):
-    def __init__(self):
+    def __init__(self, workspace):
         Tk.__init__(self)
-
+        self.workspace = workspace
         graph_frame = Frame(self)
         graph_frame.pack(side=TOP, pady=4)
 
