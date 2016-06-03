@@ -47,7 +47,7 @@ class ModuleSchema(Canvas):
     def edit_file(module):
         if(os.name is "nt"):
             os.system(module.py_file)
-        else if(os.name is "posix"):
+        elif(os.name is "posix"):
             subprocess.call(["xdg-open", module.py_file])
         else:
             print("Unsupported os")
