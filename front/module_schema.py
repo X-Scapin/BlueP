@@ -15,7 +15,6 @@ class ModuleSchema(Canvas):
     def load_existing_modules(self):
         for(dirpath, dirnames, filenames) in os.walk(self.workspace):
             for file in filenames:
-                print(file[-2:])
                 if(file[-2:] == "py"):
                     print(file)
                     new_module = Module(file, self.workspace)
@@ -59,7 +58,7 @@ class ModuleSchema(Canvas):
 
     def edit_file(module):
         if(os.name is "nt"):
-            os.system(module.py_file)
+            os.system("start notepad " + module.py_file)
         elif(os.name is "posix"):
             subprocess.call(["xdg-open", module.py_file])
         else:
