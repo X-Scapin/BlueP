@@ -5,9 +5,8 @@ from front.module import Module
 
 
 class ModuleSchema(Canvas):
-    def __init__(self, frame, workspace, width, height, background):
-        Canvas.__init__(self, frame, width=width,
-                        height=height, background=background)
+    def __init__(self, frame, workspace, background):
+        Canvas.__init__(self, frame, background=background)
         self.module_list = list()
         self.bind("<Double-Button-1>", self.double_click)
         self.workspace = workspace

@@ -1,4 +1,8 @@
 from tkinter import *
+import back.utils as utils
+
+DIALOG_WIDTH = 400
+DIALOG_HEIGHT = 130
 
 
 class TextDialog(object):
@@ -10,9 +14,10 @@ class TextDialog(object):
         else:
             self.dialog = Toplevel(self.parent)
 
-        self.dialog.title = title
+        self.dialog.wm_title(title)
+
         field_frame = Frame(self.dialog)
-        field_frame.pack(side=TOP)
+        field_frame.pack(side=TOP, fill=Y, expand=1)
 
         button_frame = Frame(self.dialog)
         button_frame.pack(side=BOTTOM)
@@ -31,6 +36,8 @@ class TextDialog(object):
         cancel_button.pack(side=RIGHT)
 
         self.field_value = None
+
+        utils.center_window(self.dialog, DIALOG_WIDTH, DIALOG_HEIGHT)
 
         if self.parent is None:
             self.dialog.mainloop()

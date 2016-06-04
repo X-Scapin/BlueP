@@ -3,19 +3,25 @@ from back.console import Console
 
 
 class ExecutionFrame(Frame):
-    def __init__(self, parent, background):
+    def __init__(self, parent, background=None):
         Frame.__init__(self, parent, background=background)
 
-        self.entry = Entry(self)
-        self.entry.pack(fill=BOTH, expand=1)
+        self.instances_part = Frame(self, width=500)
+        self.instances_part.pack(side=LEFT, fill=BOTH, expand=1)
+
+        self.console_part = Frame(self)
+        self.console_part.pack(side=RIGHT, fill=BOTH, expand=1)
+
+        self.entry = Entry(self.console_part)
+        self.entry.pack(fill=BOTH)
         self.entry.bind("<Return>", self.entry_callback)
 
-        scrollbar = Scrollbar(self)
+        scrollbar = Scrollbar(self.console_part)
         scrollbar.pack(side=RIGHT, fill=Y)
 
-        self.text_box = Text(self, wrap='word', height=8,
+        self.text_box = Text(self.console_part, wrap='word', height=8,
                              yscrollcommand=scrollbar.set)
-        self.text_box.pack()
+        self.text_box.pack(fill=BOTH, expand=1)
 
         scrollbar.config(command=self.text_box.yview)
 

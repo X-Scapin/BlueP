@@ -26,8 +26,5 @@ class BlueP():
         else:
             return True
 
-# print(os.getcwd())
-BlueP()
-
-
-# print(sys.version)
+if __name__ == '__main__':
+        BlueP()
