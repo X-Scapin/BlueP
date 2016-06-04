@@ -5,17 +5,20 @@ import sys
 
 
 class Console():
-    def __init__(self, stdout):
+    def __init__(self, stdout, stderr):
         self.console = code.InteractiveConsole()
         self.stdout = stdout
+        self.stderr = stderr
         self.locout = StringIO()
 
     def set_locout(self):
         self.locout = StringIO()
         sys.stdout = self.locout
+        sys.stderr = self.locout
 
     def set_stdout(self):
         sys.stdout = self.stdout
+        sys.stderr = self.locout
         self.locout.close()
 
     def get_output(self):
