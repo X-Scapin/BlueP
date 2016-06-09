@@ -12,6 +12,7 @@ class BlueP():
         self.define_workspace()
 
         if self.workspace is not None:
+            print(self.workspace.directory)
             self.main_window = MainWindow(self.workspace.directory)
 
     def define_workspace(self):

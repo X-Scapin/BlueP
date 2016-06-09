@@ -15,11 +15,12 @@ class ModuleSchema(Canvas):
 
     def load_existing_modules(self):
         for(dirpath, dirnames, filenames) in os.walk(self.workspace):
+            print("load existing modules")
             for file in filenames:
                 if(file[-2:] == "py"):
                     print(file)
-                    new_module = Module(file, self.workspace)
-                    self.add_module(new_module, False)
+                    new_module = Module(self.workspace, title=file)
+                    self.add_module(new_module, alert_collision=False)
                     self.refresh()
 
             break

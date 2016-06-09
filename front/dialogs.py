@@ -85,5 +85,5 @@ class Popup():
         if self.parent is None:
             self.dialog.mainloop()
 
-    def ok_action(self):
+    def ok_action(self, event=None):
         self.dialog.destroy()
