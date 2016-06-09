@@ -19,16 +19,16 @@ class ModuleSchema(Canvas):
                 if(file[-2:] == "py"):
                     print(file)
                     new_module = Module(file, self.workspace)
-                    self.add_module(new_module)
+                    self.add_module(new_module, False)
                     self.refresh()
 
             break
 
-    def add_module(self, module):
+    def add_module(self, module, alert_collision=True):
         if not self.check_module_existence(module):
             self.new_module_placement(module)
             self.module_list.append(module)
-        else:
+        elif alert_collision:
             Popup(None, "Module " + module.title + " already exists")
 
     def new_module_placement(self, module):
