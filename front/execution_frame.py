@@ -25,7 +25,7 @@ class ExecutionFrame(Frame):
 
         scrollbar.config(command=self.text_box.yview)
 
-        self.console = Console(sys.stdout)
+        self.console = Console(sys.stdout, sys.stderr)
 
     def entry_callback(self, event):
         entry_value = self.entry.get()
