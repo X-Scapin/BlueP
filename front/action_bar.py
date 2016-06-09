@@ -23,16 +23,17 @@ class ActionBarManager():
 
     def new_module_action(self):
         new_module_dialog = TextDialog(self.window,
-                                       "Choose new module name", "Module name")
+                                       "Choose new class name", "Class name")
 
         self.window.wait_window(new_module_dialog.dialog)
 
         if new_module_dialog.field_value is not None:
-            new_module = Module(new_module_dialog.field_value,
-                                self.window.workspace)
+            new_module = Module(self.window.workspace,
+                                main_class=new_module_dialog.field_value)
             self.schema_module.add_module(new_module)
             self.schema_module.refresh()
-            self.create_python_module(new_module)
+            new_module.create_python_module()
+            new_module.init_file_module()
 
     def save_action(self):
         # TODO
@@ -42,6 +43,3 @@ class ActionBarManager():
         for module in self.schema_module.module_list:
             print("import " + module.title)
             self.window.execution_frame.console.eval_command("import " + module.title)
-
-    def create_python_module(self, module):
-        open(module.py_file, 'a').close()

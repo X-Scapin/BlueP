@@ -1,0 +1,12 @@
+import sys
+
+class $classname():
+    def __init__(self):
+        self.default_value = "Hello world !"
+
+    def print_value(self):
+        print(self.default_value)
+
+if __name__ == '__main__':
+        object = $classname()
+        object.print_value()
