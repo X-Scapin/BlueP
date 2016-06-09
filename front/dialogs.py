@@ -48,3 +48,34 @@ class TextDialog(object):
 
     def cancel_action(self):
         self.dialog.destroy()
+
+
+class Popup():
+    def __init__(self, parent, text, title="Information"):
+        self.parent = parent
+        if self.parent is None:
+            self.dialog = Tk()
+        else:
+            self.dialog = Toplevel(self.parent)
+
+        self.dialog.wm_title(title)
+
+        field_frame = Frame(self.dialog)
+        field_frame.pack(side=TOP, fill=Y, expand=1)
+
+        button_frame = Frame(self.dialog)
+        button_frame.pack(side=BOTTOM)
+
+        label = Label(field_frame, text=text)
+        label.pack(side=LEFT)
+
+        ok_button = Button(button_frame, text="OK", command=self.ok_action)
+        ok_button.pack(side=LEFT)
+
+        utils.center_window(self.dialog, DIALOG_WIDTH, DIALOG_HEIGHT)
+
+        if self.parent is None:
+            self.dialog.mainloop()
+
+    def ok_action(self):
+        self.dialog.destroy()

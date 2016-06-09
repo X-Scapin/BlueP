@@ -2,6 +2,7 @@ import os
 import subprocess
 from tkinter import Canvas
 from front.module import Module
+from front.dialogs import Popup
 
 
 class ModuleSchema(Canvas):
@@ -24,8 +25,11 @@ class ModuleSchema(Canvas):
             break
 
     def add_module(self, module):
-        self.new_module_placement(module)
-        self.module_list.append(module)
+        if not self.check_module_existence(module):
+            self.new_module_placement(module)
+            self.module_list.append(module)
+        else:
+            Popup(None, "Module " + module.title + " already exists")
 
     def new_module_placement(self, module):
         max_x = 15
@@ -42,7 +46,13 @@ class ModuleSchema(Canvas):
         self.create_rectangle(module.x, module.y, module.x + Module.width,
                               module.y + Module.height)
         self.create_text(module.x + Module.width / 2,
-                         module.y + 10, text=module.title)
+                         module.y + 10, text=module.classname)
+
+    def check_module_existence(self, module):
+        for cur_module in self.module_list:
+            if module.title == cur_module.title:
+                return True
+        return False
 
     def refresh(self):
         # TODO clear

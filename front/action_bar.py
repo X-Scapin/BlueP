@@ -23,7 +23,7 @@ class ActionBarManager():
 
     def new_module_action(self):
         new_module_dialog = TextDialog(self.window,
-                                       "Choose new module name", "Module name")
+                                       "Choose new class name", "Class name")
 
         self.window.wait_window(new_module_dialog.dialog)
 
