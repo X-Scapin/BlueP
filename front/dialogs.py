@@ -37,16 +37,19 @@ class TextDialog(object):
 
         self.field_value = None
 
+        self.dialog.bind("<Return>", self.ok_action)
+        self.dialog.bind("<Escape>", self.cancel_action)
         utils.center_window(self.dialog, DIALOG_WIDTH, DIALOG_HEIGHT)
+        self.entry.focus()
 
         if self.parent is None:
             self.dialog.mainloop()
 
-    def ok_action(self):
+    def ok_action(self, event=None):
         self.field_value = self.entry.get()
         self.dialog.destroy()
 
-    def cancel_action(self):
+    def cancel_action(self, event=None):
         self.dialog.destroy()
 
 
@@ -75,6 +78,8 @@ class Popup():
         ok_button = Button(button_frame, text="OK", command=self.ok_action)
         ok_button.pack(side=LEFT)
 
+        self.dialog.bind("<Return>", self.ok_action)
+        self.dialog.bind("<Escape>", self.ok_action)
         utils.center_window(self.dialog, DIALOG_WIDTH, DIALOG_HEIGHT)
 
         if self.parent is None:
