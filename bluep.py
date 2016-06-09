@@ -2,6 +2,8 @@ import sys
 import os
 from front.window import MainWindow
 from front.dialogs import TextDialog
+from front.dialogs import Popup
+from back.workspace import Workspace
 
 
 class BlueP():
@@ -10,21 +12,19 @@ class BlueP():
         self.define_workspace()
 
         if self.workspace is not None:
-            self.main_window = MainWindow(self.workspace)
+            self.main_window = MainWindow(self.workspace.directory)
 
     def define_workspace(self):
         workspace_dialog = TextDialog(None, "Define workspace",
                                       "Workspace path")
-        self.workspace = workspace_dialog.field_value
 
-        if self.validate_workspace() is False:
-            self.define_workspace()
-
-    def validate_workspace(self):
-        if self.workspace is "":
-            return False
-        else:
-            return True
+        if workspace_dialog.field_value is not None:
+            self.workspace = Workspace(workspace_dialog.field_value)
+            feed_back = self.workspace.check_workspace()
+            if feed_back is not True:
+                self.workspace = None
+                Popup(None, feed_back)
+                self.define_workspace()
 
 if __name__ == '__main__':
-        BlueP()
+    BlueP()

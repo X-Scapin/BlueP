@@ -51,6 +51,9 @@ class TextDialog(object):
 
 
 class Popup():
+    """Display basic popup with text
+    Set parent to None for independant popup"""
+
     def __init__(self, parent, text, title="Information"):
         self.parent = parent
         if self.parent is None:
