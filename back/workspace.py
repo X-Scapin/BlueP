@@ -24,7 +24,6 @@ class Workspace():
                 if not os.path.exists(self.directory):
                     feed_back = "Could not resolve " + self.directory
                 else:
-                    print(self.config_file)
                     open(self.config_file, 'a').close()
                     if not os.path.exists(self.config_file):
                         feed_back = "Can't create " + self.config_file
