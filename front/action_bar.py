@@ -39,8 +39,9 @@ class ActionBarManager():
         print("TODO")
 
     def compile_action(self):
-        # TODO
-        print("TODO")
+        for module in self.schema_module.module_list:
+            print("import " + module.title)
+            self.window.execution_frame.console.eval_command("import " + module.title)
 
     def create_python_module(self, module):
         open(module.py_file, 'a').close()

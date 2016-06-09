@@ -5,11 +5,17 @@ import sys
 
 
 class Console():
-    def __init__(self, stdout, stderr):
+    def __init__(self, stdout, stderr, workspace):
         self.console = code.InteractiveConsole()
         self.stdout = stdout
         self.stderr = stderr
         self.locout = StringIO()
+        self.workspace = workspace
+        self.init_workspace()
+
+    def init_workspace(self):
+        self.eval_command("import sys")
+        self.eval_command("sys.path.append('" + self.workspace + "')")
 
     def set_locout(self):
         self.locout = StringIO()

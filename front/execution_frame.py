@@ -3,8 +3,8 @@ from back.console import Console
 
 
 class ExecutionFrame(Frame):
-    def __init__(self, parent, background=None):
-        Frame.__init__(self, parent, background=background)
+    def __init__(self, window, background=None):
+        Frame.__init__(self, window, background=background)
 
         self.instances_part = Frame(self, width=500)
         self.instances_part.pack(side=LEFT, fill=BOTH, expand=1)
@@ -25,7 +25,7 @@ class ExecutionFrame(Frame):
 
         scrollbar.config(command=self.text_box.yview)
 
-        self.console = Console(sys.stdout, sys.stderr)
+        self.console = Console(sys.stdout, sys.stderr, window.workspace)
 
     def entry_callback(self, event):
         entry_value = self.entry.get()
