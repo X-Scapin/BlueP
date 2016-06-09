@@ -1,3 +1,8 @@
+import os
+from string import Template
+
+CLASS_TEMPLATE = os.getcwd() + "/resources/class.template"
+
 
 class Module():
 
@@ -16,7 +21,7 @@ class Module():
         self.compute_python_path()
 
     def compute_python_path(self):
-        #TODO check .py
+        # TODO check .py
         self.py_file = self.directory + "/" + self.title + ".py"
 
     def contains(self, x, y):
@@ -24,6 +29,22 @@ class Module():
             if(y > self.y and y < self.y + Module.height):
                 return True
         return False
+
+    def create_python_module(self):
+        open(self.py_file, 'a').close()
+
+    def init_file_module(self):
+        """Fill file module with default class and methods"""
+        template_file = open(CLASS_TEMPLATE)
+        template_content = Template(template_file.read())
+        subs_map = {'classname': self.classname}
+
+        module_content = template_content.substitute(subs_map)
+        module_file = open(self.py_file, 'w')
+        module_file.write(module_content)
+
+        template_file.close()
+        module_file.close()
 
     def classname_from_title(title):
         split_title = title.split('_')

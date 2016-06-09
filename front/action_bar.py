@@ -32,7 +32,8 @@ class ActionBarManager():
                                 self.window.workspace)
             self.schema_module.add_module(new_module)
             self.schema_module.refresh()
-            self.create_python_module(new_module)
+            new_module.create_python_module()
+            new_module.init_file_module()
 
     def save_action(self):
         # TODO
@@ -41,6 +42,3 @@ class ActionBarManager():
     def compile_action(self):
         # TODO
         print("TODO")
-
-    def create_python_module(self, module):
-        open(module.py_file, 'a').close()
