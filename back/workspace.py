@@ -29,4 +29,7 @@ class Workspace():
             except PermissionError:
                 feed_back = "Can't create " + self.directory
 
+            except FileNotFoundError:
+                feed_back = "Can't create " + self.config_file
+
         return feed_back
