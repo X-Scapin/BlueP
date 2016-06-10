@@ -19,10 +19,10 @@ class ModuleSchema(Canvas):
             for file in filenames:
                 if(file[-2:] == "py"):
                     abs_path = os.path.abspath(os.path.join(dirpath, file))
-                    print(abs_path)
                     first_classname = Module.get_first_classname(abs_path)
                     if first_classname is not None:
-                        new_module = Module(self.workspace, title=file, main_class=first_classname)
+                        new_module = Module(self.workspace, title=file,
+                                            main_class=first_classname)
                         self.add_module(new_module, alert_collision=False)
                         self.refresh()
                     else:
@@ -51,7 +51,7 @@ class ModuleSchema(Canvas):
         self.create_rectangle(module.x, module.y, module.x + Module.width,
                               module.y + Module.height)
         self.create_text(module.x + Module.width / 2,
-                         module.y + 10, text=module.classname)
+                         module.y + 10, text=module.main_class)
 
     def check_module_existence(self, module):
         for cur_module in self.module_list:
