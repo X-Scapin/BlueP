@@ -18,11 +18,15 @@ class ModuleSchema(Canvas):
             print("load existing modules")
             for file in filenames:
                 if(file[-2:] == "py"):
-                    print(file)
-                    new_module = Module(self.workspace, title=file)
-                    self.add_module(new_module, alert_collision=False)
-                    self.refresh()
-
+                    abs_path = os.path.abspath(os.path.join(dirpath, file))
+                    print(abs_path)
+                    first_classname = Module.get_first_classname(abs_path)
+                    if first_classname is not None:
+                        new_module = Module(self.workspace, title=file, main_class=first_classname)
+                        self.add_module(new_module, alert_collision=False)
+                        self.refresh()
+                    else:
+                        print("Can't found class in file "+file)
             break
 
     def add_module(self, module, alert_collision=True):
