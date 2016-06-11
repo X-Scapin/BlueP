@@ -55,8 +55,9 @@ class ModuleSchema(Canvas):
     def draw_module(self, module):
         self.create_rectangle(module.x, module.y, module.x + Module.width,
                               module.y + Module.height)
+        # Arbitrary max classname displayed
         self.create_text(module.x + Module.width / 2,
-                         module.y + 10, text=module.classname)
+                         module.y + 10, text=module.classname[0:14] + "...")
         self.draw_attributes(module)
 
     def draw_attributes(self, module):
@@ -68,7 +69,7 @@ class ModuleSchema(Canvas):
             for attribute in ca:
                 if ay - 20 <= Module.height:
                     self.create_text(ax, ay, text=attribute[0],
-                                     anchor='nw')
+                                     anchor='nw', width=Module.width - 4)
                 elif feed_back is False:
                     feed_back = True
                     self.create_text(ax, ay, text="...",
