@@ -7,8 +7,8 @@ CLASS_TEMPLATE = os.getcwd() + "/resources/class.template"
 
 class Module():
     """Create with its module title or main class name"""
-    width = 75
-    height = 100
+    width = 130
+    height = 170
 
     def __init__(self, directory, title=None, main_class=None):
         if title is not None and main_class is None:
@@ -28,6 +28,7 @@ class Module():
         self.x = 15
         self.y = 50
         self.py_file = None
+        self.attributes = None
         self.directory = directory
         self.compute_python_path()
 
@@ -48,7 +49,9 @@ class Module():
         """Fill file module with default class and methods"""
         template_file = open(CLASS_TEMPLATE)
         template_content = Template(template_file.read())
-        subs_map = {'classname': self.classname}
+        subs_map = {'classname': self.classname,
+                    'classinstance':
+                    Module.modulename_from_classname(self.classname)}
 
         module_content = template_content.substitute(subs_map)
         module_file = open(self.py_file, 'w')

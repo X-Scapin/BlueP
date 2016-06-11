@@ -35,7 +35,7 @@ class ModuleSchema(Canvas):
 
     def add_module(self, module, alert_collision=True):
         if not self.check_module_existence(module):
-            self.inspect_module(module)
+            module.attributes = self.inspect_module(module)
             self.new_module_placement(module)
             self.module_list.append(module)
         elif alert_collision:
@@ -57,6 +57,23 @@ class ModuleSchema(Canvas):
                               module.y + Module.height)
         self.create_text(module.x + Module.width / 2,
                          module.y + 10, text=module.classname)
+        self.draw_attributes(module)
+
+    def draw_attributes(self, module):
+        if module.attributes is not None:
+            ca = module.attributes['class_attributes']
+            ax = module.x + 5
+            ay = module.y + 25
+            feed_back = False
+            for attribute in ca:
+                if ay - 20 <= Module.height:
+                    self.create_text(ax, ay, text=attribute[0],
+                                     anchor='nw')
+                elif feed_back is False:
+                    feed_back = True
+                    self.create_text(ax, ay, text="...",
+                                     anchor='nw')
+                ay += 18
 
     def check_module_existence(self, module):
         for cur_module in self.module_list:
@@ -74,22 +91,31 @@ class ModuleSchema(Canvas):
                 ModuleSchema.edit_file(module)
 
     def inspect_module(self, module):
-        """Flush inspect_console and get module main_class attributes"""
+        """Flush inspect_console and get module class and object attributes"""
 
+        module_attributes = None
         self.inspect_console.flush_console()
         self.inspect_console.eval_command("import inspect")
-        print("inspect_module TODO")
-        # print(self.inspect_console.eval_command(
-        #     "from " + module.py_file + " import " + module.classname))
+        self.inspect_console.eval_command(
+            "from " + module.title + " import " + module.classname)
 
-        # inspect_sentence = """attributes = inspect.getmembers({classname},
-        #                       lambda a:not(inspect.isroutine(a)))
-        #                       """.format(classname=module.classname)
-        # print(self.inspect_console.eval_command(inspect_sentence))
+        self.inspect_console.eval_command("attributes = None")
+        self.inspect_console.eval_command("""attributes = inspect.getmembers({classname},
+                              lambda a:not(inspect.isroutine(a)))
+                              """.format(classname=module.classname))
+        attributes_exist = self.inspect_console.eval_command(
+            """'true' if attributes is not None else 'false'""")
 
-        # inspect_sentence = """[a for a in attributes if not(a[0].startswith('__')
-        #                       and a[0].endswith('__'))]"""
-        # print(self.inspect_console.eval_command(inspect_sentence))
+        if eval(attributes_exist) == 'true':
+            class_attributes = self.inspect_console.eval_command("""[a for a in attributes if not(a[0].startswith('__')
+            and a[0].endswith('__'))]""")
+
+            module_attributes = {'class_attributes': eval(class_attributes)}
+            print("TODO get instance attributes")
+        else:
+            print("Errors in module : " + module.title)
+
+        return module_attributes
 
     def hit_module(module, x, y):
         return module.contains(x, y)

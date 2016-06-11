@@ -1,12 +1,22 @@
 import sys
 
-class $classname():
-    def __init__(self):
-        self.default_value = "Hello world !"
 
-    def print_value(self):
-        print(self.default_value)
+class $classname():
+    """ New class $classname"""
+
+    global_message = "Hello world !"
+
+    def __init__(self):
+        self.default_message = "Hello everybody !"
+
+    def print_value(self, sender):
+        """DocString : this method print the default value of this instance"""
+        print(sender + " say : " + self.default_message)
+
+    def print_global_message():
+        print($classname.global_message)
 
 if __name__ == '__main__':
-        object = $classname()
-        object.print_value()
+        $classname.print_global_message()
+        $classinstance = $classname()
+        $classinstance.print_value("$classinstance")

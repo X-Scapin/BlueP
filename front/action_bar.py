@@ -30,10 +30,10 @@ class ActionBarManager():
         if new_module_dialog.field_value is not None:
             new_module = Module(self.window.workspace,
                                 main_class=new_module_dialog.field_value)
-            self.schema_module.add_module(new_module)
-            self.schema_module.refresh()
             new_module.create_python_module()
             new_module.init_file_module()
+            self.schema_module.add_module(new_module)
+            self.schema_module.refresh()
 
     def save_action(self):
         # TODO
