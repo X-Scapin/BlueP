@@ -23,7 +23,7 @@ class Module():
             if(title[-3:] == ".py"):
                 title = title[:-3]
             self.title = title
-            self.main_class = main_class
+            self.classname = main_class
 
         self.x = 15
         self.y = 50
@@ -79,12 +79,13 @@ class Module():
         try:
             module = open(file, 'r')
             module_content = module.read()
-            match = re.search("^class (.+)\(\s*\)\s*:", module_content, re.MULTILINE)
+            match = re.search("^class (.+)\(\s*\)\s*:",
+                              module_content, re.MULTILINE)
             if match is not None:
                 first_classname = match.group(1)
             module.close()
 
         except FileNotFoundError:
-            print("File not found "+file)
+            print("File not found " + file)
 
         return first_classname

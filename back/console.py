@@ -24,7 +24,7 @@ class Console():
 
     def set_stdout(self):
         sys.stdout = self.stdout
-        sys.stderr = self.locout
+        sys.stderr = self.stderr
         self.locout.close()
 
     def get_output(self):
@@ -42,3 +42,4 @@ class Console():
 
     def flush_console(self):
         self.console = code.InteractiveConsole()
+        self.init_workspace()
