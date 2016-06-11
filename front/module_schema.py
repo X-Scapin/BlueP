@@ -55,20 +55,39 @@ class ModuleSchema(Canvas):
     def draw_module(self, module):
         self.create_rectangle(module.x, module.y, module.x + Module.width,
                               module.y + Module.height)
-        # Arbitrary max classname displayed
+        classname = module.classname
+        if len(classname) > Module.max_characters:
+            classname = classname[0:Module.max_characters] + "..."
         self.create_text(module.x + Module.width / 2,
-                         module.y + 10, text=module.classname[0:14] + "...")
+                         module.y + 10, text=classname)
         self.draw_attributes(module)
 
     def draw_attributes(self, module):
         if module.attributes is not None:
             ca = module.attributes['class_attributes']
+            ia = module.attributes['instance_attributes']
             ax = module.x + 5
             ay = module.y + 25
             feed_back = False
             for attribute in ca:
+                attribute_text = attribute[0]
+                if len(attribute_text) > Module.max_characters:
+                    attribute_text = attribute_text[0:Module.max_characters] + "..."
                 if ay - 20 <= Module.height:
-                    self.create_text(ax, ay, text=attribute[0],
+                    self.create_text(ax, ay, text=attribute_text,
+                                     anchor='nw', width=Module.width - 4)
+                elif feed_back is False:
+                    feed_back = True
+                    self.create_text(ax, ay, text="...",
+                                     anchor='nw')
+                ay += 18
+
+            for attribute in ia:
+                attribute_text = "s." + attribute[0]
+                if len(attribute_text) > Module.max_characters:
+                    attribute_text = attribute_text[0:Module.max_characters] + "..."
+                if ay - 20 <= Module.height:
+                    self.create_text(ax, ay, text=attribute_text,
                                      anchor='nw', width=Module.width - 4)
                 elif feed_back is False:
                     feed_back = True
@@ -111,8 +130,10 @@ class ModuleSchema(Canvas):
             class_attributes = self.inspect_console.eval_command("""[a for a in attributes if not(a[0].startswith('__')
             and a[0].endswith('__'))]""")
 
-            module_attributes = {'class_attributes': eval(class_attributes)}
-            print("TODO get instance attributes")
+            instance_attributes = Module.get_instance_attributes(
+                module.py_file)
+            module_attributes = {'class_attributes': eval(class_attributes),
+                                 'instance_attributes': instance_attributes}
         else:
             print("Errors in module : " + module.title)
 

@@ -9,6 +9,8 @@ class Module():
     """Create with its module title or main class name"""
     width = 130
     height = 170
+    # Arbitrary max for text display
+    max_characters = 14
 
     def __init__(self, directory, title=None, main_class=None):
         if title is not None and main_class is None:
@@ -76,6 +78,33 @@ class Module():
             modulename += "_" + part.lower()
 
         return modulename
+
+    def get_instance_attributes(file):
+        # [(att, value)]
+        attributes = []
+        try:
+            module = open(file, 'r')
+            module_lines = module.readlines()
+
+            in_zone = False
+            for line in module_lines:
+                if re.search("^\s*def\s+__init__.*", line) is not None:
+                    in_zone = True
+
+                if in_zone is True:
+                    att_search = re.search("^\s*self.(.+)\s*=\s*(.*)", line)
+                    if att_search is not None:
+                        attribute = (att_search.group(1), att_search.group(2))
+                        attributes.append(attribute)
+
+                if re.search("^\s*def\s+(?!__init__).*", line):
+                    in_zone = False
+
+            module.close()
+        except FileNotFoundError:
+            print("File not found " + file)
+
+        return attributes
 
     def get_first_classname(file):
         first_classname = None
