@@ -11,9 +11,11 @@ class Console():
         self.stderr = stderr
         self.locout = StringIO()
         self.workspace = workspace
+        self.instances = ""
         self.init_workspace()
 
     def init_workspace(self):
+        self.eval_command("import back.interactive_console_utils")
         self.eval_command("import sys")
         self.eval_command("sys.path.append('" + self.workspace + "')")
 
@@ -25,7 +27,6 @@ class Console():
     def set_stdout(self):
         sys.stdout = self.stdout
         sys.stderr = self.stderr
-        self.locout.close()
 
     def get_output(self):
         return self.locout.getvalue()
@@ -34,7 +35,10 @@ class Console():
         self.set_locout()
         self.console.push(command)
         outputstring = self.get_output()
+        self.locout.close()
+        self.refresh_instance_list()
         self.set_stdout()
+
         return outputstring
 
     def run_source(self, filename):
@@ -43,3 +47,12 @@ class Console():
     def flush_console(self):
         self.console = code.InteractiveConsole()
         self.init_workspace()
+
+    def refresh_instance_list(self):
+        instances_out = StringIO()
+        sys.stdout = instances_out
+        sys.stderr = instances_out
+
+        self.console.push("back.interactive_console_utils.compute_instance_list()")
+        self.instances = instances_out.getvalue()
+        instances_out.close()
