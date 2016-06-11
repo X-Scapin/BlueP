@@ -1,6 +1,6 @@
 from tkinter import *
 from back.console import Console
-
+from front.instance_schema import InstanceSchema
 
 class ExecutionFrame(Frame):
     def __init__(self, window, background=None):
@@ -8,6 +8,9 @@ class ExecutionFrame(Frame):
 
         self.instances_part = Frame(self, width=500)
         self.instances_part.pack(side=LEFT, fill=BOTH, expand=1)
+
+        self.instance_schema = InstanceSchema(self.instances_part, window, background='#FAFAFA')
+        self.instance_schema.pack(fill=BOTH, expand=1)
 
         self.console_part = Frame(self)
         self.console_part.pack(side=RIGHT, fill=BOTH, expand=1)
@@ -32,3 +35,5 @@ class ExecutionFrame(Frame):
         self.text_box.insert(END, self.console.eval_command(entry_value))
         self.text_box.see(END)
         self.entry.delete(0, END)
+
+        self.instance_schema.refresh(self.console.instances)

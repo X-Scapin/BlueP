@@ -23,7 +23,7 @@ class Module():
             if(title[-3:] == ".py"):
                 title = title[:-3]
             self.title = title
-            self.main_class = main_class
+            self.classname = main_class
 
         self.x = 15
         self.y = 50

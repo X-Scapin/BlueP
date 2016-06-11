@@ -27,12 +27,12 @@ class MainWindow(Tk):
         schema_frame = Frame(graph_frame, width=500, height=500)
         schema_frame.pack(side=RIGHT, fill=BOTH, expand=1)
 
-        module_schema = ModuleSchema(schema_frame,
+        self.module_schema = ModuleSchema(schema_frame,
                                      workspace, background='yellow')
-        module_schema.pack(fill=BOTH, expand=1)
+        self. module_schema.pack(fill=BOTH, expand=1)
 
         action_bar_manager = ActionBarManager(action_frame,
-                                              module_schema, self)
+                                              self.module_schema, self)
 
         utils.center_window(self, DEFAULT_WIDTH, DEFAULT_HEIGHT)
         self.mainloop()

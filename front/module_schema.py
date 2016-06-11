@@ -51,7 +51,7 @@ class ModuleSchema(Canvas):
         self.create_rectangle(module.x, module.y, module.x + Module.width,
                               module.y + Module.height)
         self.create_text(module.x + Module.width / 2,
-                         module.y + 10, text=module.main_class)
+                         module.y + 10, text=module.classname)
 
     def check_module_existence(self, module):
         for cur_module in self.module_list:
