@@ -11,14 +11,19 @@ class Module():
     height = 100
 
     def __init__(self, directory, title=None, main_class=None):
-        if title is not None:
+        if title is not None and main_class is None:
             if(title[-3:] == ".py"):
                 title = title[:-3]
             self.title = title.lower()
             self.classname = Module.classname_from_title(self.title)
-        else:
+        elif title is None and main_class is not None:
             self.classname = main_class
             self.title = Module.modulename_from_classname(main_class)
+        else:
+            if(title[-3:] == ".py"):
+                title = title[:-3]
+            self.title = title
+            self.main_class = main_class
 
         self.x = 15
         self.y = 50
@@ -68,3 +73,18 @@ class Module():
             modulename += "_" + part.lower()
 
         return modulename
+
+    def get_first_classname(file):
+        first_classname = None
+        try:
+            module = open(file, 'r')
+            module_content = module.read()
+            match = re.search("^class (.+)\(\s*\)\s*:", module_content, re.MULTILINE)
+            if match is not None:
+                first_classname = match.group(1)
+            module.close()
+
+        except FileNotFoundError:
+            print("File not found "+file)
+
+        return first_classname
