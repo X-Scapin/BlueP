@@ -40,6 +40,7 @@ class ActionBarManager():
         print("TODO")
 
     def compile_action(self):
+        self.window.execution_frame.console.flush_console()
         for module in self.schema_module.module_list:
-            print("import " + module.title)
             self.window.execution_frame.console.eval_command("import " + module.title)
+            self.window.execution_frame.console.eval_command("from " + module.title + " import " + module.classname)
