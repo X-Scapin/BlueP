@@ -14,6 +14,7 @@ class ModuleSchema(Canvas):
         self.bind("<Double-Button-1>", self.double_click)
         self.bind("<ButtonPress-1>", self.select_instance)
         self.bind("<B1-Motion>", self.drag_move)
+        self.bind("<ButtonRelease-1>", self.end_drag)
         self.workspace = workspace
         self.inspect_console = Console(sys.stdout,
                                        sys.stderr, workspace)
@@ -126,6 +127,9 @@ class ModuleSchema(Canvas):
             self.selected_module.x = event.x
             self.selected_module.y = event.y
             self.refresh()
+
+    def end_drag(self, event):
+         self.selected_module = None
 
     def inspect_module(self, module):
         """Flush inspect_console and get module class and object attributes"""
