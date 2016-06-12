@@ -5,6 +5,7 @@ from tkinter import Canvas
 from front.module import Module
 from front.dialogs import Popup
 from back.console import Console
+import json
 
 
 class ModuleSchema(Canvas):
@@ -33,10 +34,25 @@ class ModuleSchema(Canvas):
                         new_module = Module(self.workspace, title=file,
                                             main_class=first_classname)
                         self.add_module(new_module, alert_collision=False)
-                        self.refresh()
                     else:
                         print("Can't found class in file " + file)
             break
+        self.load_existing_placement()
+        self.redraw()
+
+    def load_existing_placement(self):
+        bluep_file = open(self.workspace + '\\' +'project.bluep', 'r')
+        data = json.load(bluep_file)
+        bluep_file.close()
+        for module in self.module_list:
+            if module.classname in data:
+                placement = data[module.classname]
+                if placement is not None:
+                    for x in placement.keys():
+                        module.x = int(x)
+                        module.y = int(placement[x])
+
+
 
     def add_module(self, module, alert_collision=True):
         if not self.check_module_existence(module):
@@ -106,9 +122,15 @@ class ModuleSchema(Canvas):
                 return True
         return False
 
-    def refresh(self):
+    def redraw(self):
         self.delete("all")
         self.display_modules()
+
+    def refresh(self):
+        self.delete("all")
+        self.module_list = list()
+        self.load_existing_modules()
+
 
     def double_click(self, event):
         for module in self.module_list:
@@ -126,7 +148,7 @@ class ModuleSchema(Canvas):
         if self.selected_module is not None:
             self.selected_module.x = event.x
             self.selected_module.y = event.y
-            self.refresh()
+            self.redraw()
 
     def end_drag(self, event):
          self.selected_module = None

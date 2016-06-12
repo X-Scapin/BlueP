@@ -1,6 +1,7 @@
 from tkinter import *
 from front.module import Module
 from front.dialogs import TextDialog
+import json
 
 
 class ActionBarManager():
@@ -36,8 +37,17 @@ class ActionBarManager():
             self.schema_module.refresh()
 
     def save_action(self):
-        # TODO
-        print("TODO")
+        bluep_file = open(self.window.workspace + '\\' +'project.bluep', 'w')
+        data = None
+        for module in self.schema_module.module_list:
+            if data is not None:
+                data.update({module.classname: {module.x: module.y}})
+            else:
+                data = {module.classname: {module.x: module.y}}
+        json.dump(data, bluep_file)
+        bluep_file.close()
+
+        self.window.module_schema.refresh()
 
     def compile_action(self):
         self.window.execution_frame.console.flush_console()
