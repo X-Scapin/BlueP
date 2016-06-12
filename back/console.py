@@ -12,9 +12,11 @@ class Console():
         self.locout = StringIO()
         self.workspace = workspace
         self.instances = ""
-        self.init_workspace()
+        self.init_session()
 
-    def init_workspace(self):
+    def init_session(self):
+        self.eval_command("import os")
+        self.eval_command("chilPid = os.fork()")
         self.eval_command("import back.interactive_console_utils")
         self.eval_command("import sys")
         self.eval_command("sys.path.append('" + self.workspace + "')")
@@ -45,8 +47,9 @@ class Console():
         self.console.runsource(filename=filename)
 
     def flush_console(self):
+        self.eval_command("os._exit(chilPid)")
         self.console = code.InteractiveConsole()
-        self.init_workspace()
+        self.init_session()
 
     def refresh_instance_list(self):
         instances_out = StringIO()
