@@ -1,7 +1,7 @@
 import os
 import sys
 import subprocess
-from tkinter import Canvas
+from tkinter import *
 from front.module import Module
 from front.dialogs import Popup
 from back.console import Console
@@ -20,7 +20,6 @@ class ModuleSchema(Canvas):
         self.inspect_console = Console(sys.stdout,
                                        sys.stderr, workspace)
         self.load_existing_modules()
-
         self.selected_module = None
 
     def load_existing_modules(self):
@@ -40,8 +39,12 @@ class ModuleSchema(Canvas):
         self.load_existing_placement()
         self.redraw()
 
+
+
     def load_existing_placement(self):
-        bluep_file = open(self.workspace + '\\' +'project.bluep', 'r')
+        bluep_file = open(self.workspace + '\\' + 'project.bluep', 'r')
+        if not bluep_file.read(1):
+            return
         data = json.load(bluep_file)
         bluep_file.close()
         for module in self.module_list:
