@@ -41,7 +41,7 @@ class ModuleSchema(Canvas):
 
 
     def load_existing_placement(self):
-        bluep_file = open(self.workspace + '\\' + 'project.bluep', 'r')
+        bluep_file = open(self.workspace + '/' + 'project.bluep', 'r')
         if not bluep_file.read(1):
             return
         data = json.load(bluep_file)
