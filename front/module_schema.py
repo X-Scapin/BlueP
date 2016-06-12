@@ -12,10 +12,14 @@ class ModuleSchema(Canvas):
         Canvas.__init__(self, frame, background=background)
         self.module_list = list()
         self.bind("<Double-Button-1>", self.double_click)
+        self.bind("<ButtonPress-1>", self.select_instance)
+        self.bind("<B1-Motion>", self.drag_move)
         self.workspace = workspace
         self.inspect_console = Console(sys.stdout,
                                        sys.stderr, workspace)
         self.load_existing_modules()
+
+        self.selected_module = None
 
     def load_existing_modules(self):
         for(dirpath, dirnames, filenames) in os.walk(self.workspace):
@@ -102,13 +106,26 @@ class ModuleSchema(Canvas):
         return False
 
     def refresh(self):
-        # TODO clear
+        self.delete("all")
         self.display_modules()
 
     def double_click(self, event):
         for module in self.module_list:
             if(ModuleSchema.hit_module(module, event.x, event.y)):
                 ModuleSchema.edit_file(module)
+                return
+
+    def select_instance(self, event):
+        for module in self.module_list:
+            if(ModuleSchema.hit_module(module, event.x, event.y)):
+                self.selected_module = module
+                return
+
+    def drag_move(self, event):
+        if self.selected_module is not None:
+            self.selected_module.x = event.x
+            self.selected_module.y = event.y
+            self.refresh()
 
     def inspect_module(self, module):
         """Flush inspect_console and get module class and object attributes"""
