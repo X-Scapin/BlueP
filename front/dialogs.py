@@ -7,7 +7,7 @@ DIALOG_HEIGHT = 130
 
 class TextDialog(object):
 
-    def __init__(self, parent, title, field_name):
+    def __init__(self, parent, title, field_name, optional_field_name=None):
         self.parent = parent
         if self.parent is None:
             self.dialog = Tk()
@@ -18,6 +18,8 @@ class TextDialog(object):
 
         field_frame = Frame(self.dialog)
         field_frame.pack(side=TOP, fill=Y, expand=1)
+        opt_field_frame = Frame(self.dialog)
+        opt_field_frame.pack(side=TOP, fill=Y, expand=1)
 
         button_frame = Frame(self.dialog)
         button_frame.pack(side=BOTTOM)
@@ -28,6 +30,14 @@ class TextDialog(object):
         self.entry = Entry(field_frame, width=50)
         self.entry.pack(side=RIGHT)
 
+        if optional_field_name is not None:
+            opt_label = Label(opt_field_frame, text=optional_field_name)
+            opt_label.pack(side=LEFT)
+            self.opt_entry = Entry(opt_field_frame, width=50)
+            self.opt_entry.pack(side=RIGHT)
+        else:
+            self.opt_entry = None
+
         ok_button = Button(button_frame, text="OK", command=self.ok_action)
         ok_button.pack(side=LEFT)
 
@@ -36,6 +46,7 @@ class TextDialog(object):
         cancel_button.pack(side=RIGHT)
 
         self.field_value = None
+        self.opt_field_value = None
 
         self.dialog.bind("<Return>", self.ok_action)
         self.dialog.bind("<Escape>", self.cancel_action)
@@ -47,6 +58,7 @@ class TextDialog(object):
 
     def ok_action(self, event=None):
         self.field_value = self.entry.get()
+        self.opt_field_value = self.opt_entry.get()
         self.dialog.destroy()
 
     def cancel_action(self, event=None):

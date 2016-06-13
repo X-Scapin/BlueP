@@ -1,7 +1,7 @@
 import sys
+$parent_import
 
-
-class $classname():
+class $classname($parent_class):
     """ New class $classname"""
 
     global_message = "Hello world !"

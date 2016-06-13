@@ -2,6 +2,7 @@ from tkinter import *
 from front.module import Module
 from front.dialogs import TextDialog
 import json
+import re
 
 
 class ActionBarManager():
@@ -24,13 +25,19 @@ class ActionBarManager():
 
     def new_module_action(self):
         new_module_dialog = TextDialog(self.window,
-                                       "Choose new class name", "Class name")
+                                       "Choose new class name", "Class name",
+                                       optional_field_name="Parent classes")
 
         self.window.wait_window(new_module_dialog.dialog)
 
         if new_module_dialog.field_value is not None:
             new_module = Module(self.window.workspace,
                                 main_class=new_module_dialog.field_value)
+            opt_value = new_module_dialog.opt_field_value
+            if opt_value is not None and opt_value != "" and re.search("\.", opt_value) is not None:
+                parent_info = new_module_dialog.opt_field_value.replace(" ", "").split(".")
+                new_module.parent_classes.append(parent_info[1])
+                new_module.imports = parent_info
             new_module.create_python_module()
             new_module.init_file_module()
             self.schema_module.add_module(new_module)

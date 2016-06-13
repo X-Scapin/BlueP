@@ -32,6 +32,8 @@ class Module():
         self.py_file = None
         self.attributes = None
         self.parent_classes = list()
+        # like [('modulename', 'classname')]
+        self.imports = None
         self.directory = directory
         self.compute_python_path()
 
@@ -52,9 +54,17 @@ class Module():
         """Fill file module with default class and methods"""
         template_file = open(CLASS_TEMPLATE)
         template_content = Template(template_file.read())
+        t_parent_import = ""
+        t_parent_class = ""
+        if self.imports is not None:
+            t_parent_import = "from " + self.imports[0] + " import " + self.imports[1]
+            t_parent_class = self.imports[1]
+
         subs_map = {'classname': self.classname,
                     'classinstance':
-                    Module.modulename_from_classname(self.classname)}
+                    Module.modulename_from_classname(self.classname),
+                    'parent_import': t_parent_import,
+                    'parent_class': t_parent_class}
 
         module_content = template_content.substitute(subs_map)
         module_file = open(self.py_file, 'w')
