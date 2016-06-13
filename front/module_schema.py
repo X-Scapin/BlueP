@@ -85,7 +85,7 @@ class ModuleSchema(Canvas):
 
     def draw_module(self, module):
         self.create_rectangle(module.x, module.y, module.x + Module.width,
-                              module.y + Module.height)
+                              module.y + Module.height, fill='#ffe680')
         classname = module.classname
         if len(classname) > Module.max_characters:
             classname = classname[0:Module.max_characters] + "..."

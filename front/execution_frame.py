@@ -9,7 +9,7 @@ class ExecutionFrame(Frame):
         self.instances_part = Frame(self, width=500)
         self.instances_part.pack(side=LEFT, fill=BOTH, expand=1)
 
-        self.instance_schema = InstanceSchema(self.instances_part, window, background='#FAFAFA')
+        self.instance_schema = InstanceSchema(self.instances_part, window, background='#fff0b3')
         self.instance_schema.pack(fill=BOTH, expand=1)
 
         self.console_part = Frame(self)

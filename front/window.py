@@ -28,7 +28,7 @@ class MainWindow(Tk):
         schema_frame.pack(side=RIGHT, fill=BOTH, expand=1)
 
         self.module_schema = ModuleSchema(schema_frame,
-                                     workspace, background='yellow')
+                                     workspace, background='#fff5cc')
         self. module_schema.pack(fill=BOTH, expand=1)
 
         action_bar_manager = ActionBarManager(action_frame,
