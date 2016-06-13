@@ -18,7 +18,7 @@ class InstanceSchema(Canvas):
         instanceToAdress = instances.split('\n')
         instanceCount = 0
         for i in range(instanceToAdress.__len__() - 1):
-            if i % 2 == 0 and any(instanceToAdress[i] in item for item in module_names):
+            if i % 2 == 0 and any(instanceToAdress[i] == item for item in module_names):
                 self.draw_instance(instanceToAdress[i], instanceToAdress[i + 1], instanceCount)
                 instanceCount += 1
 
