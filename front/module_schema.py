@@ -6,6 +6,7 @@ from front.module import Module
 from front.edge import Edge
 from front.dialogs import Popup
 from back.console import Console
+import math
 import json
 
 
@@ -71,17 +72,17 @@ class ModuleSchema(Canvas):
     def add_module(self, module, alert_collision=True):
         if not self.check_module_existence(module):
             module.attributes = self.inspect_module(module)
-            self.new_module_placement(module)
             self.module_list.append(module)
+            self.new_module_placement(module)
         elif alert_collision:
             Popup(None, "Module " + module.title + " already exists")
 
     def new_module_placement(self, module):
-        max_x = 15
-        for cur_module in self.module_list:
-            if max_x < cur_module.x + Module.width:
-                max_x = cur_module.x + Module.width + 15
-        module.x = max_x
+        count = self.module_list.__len__() - 1
+        column_size = 4
+        delta = 30
+        module.x = (count % column_size) * (Module.width + delta) + delta
+        module.y = math.floor(count / column_size) * (Module.height + delta) + delta
 
     def display_modules(self):
         for module in self.module_list:
@@ -101,6 +102,8 @@ class ModuleSchema(Canvas):
             classname = classname[0:Module.max_characters] + "..."
         self.create_text(module.x + Module.width / 2,
                          module.y + 10, text=classname)
+        self.create_text(module.x + Module.width / 2,
+                         module.y + Module.height - 10, text=module.title)
         self.draw_attributes(module)
 
     def draw_attributes(self, module):

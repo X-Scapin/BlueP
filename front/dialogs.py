@@ -58,7 +58,8 @@ class TextDialog(object):
 
     def ok_action(self, event=None):
         self.field_value = self.entry.get()
-        self.opt_field_value = self.opt_entry.get()
+        if self.opt_entry is not None:
+            self.opt_field_value = self.opt_entry.get()
         self.dialog.destroy()
 
     def cancel_action(self, event=None):
