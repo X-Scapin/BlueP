@@ -11,7 +11,7 @@ import json
 
 class ModuleSchema(Canvas):
     def __init__(self, frame, workspace, background):
-        Canvas.__init__(self, frame, background=background)
+        Canvas.__init__(self, frame, background=background, scrollregion=(0,0,1000,1000))
         self.module_list = list()
         self.edge_list = list()
         self.bind("<Double-Button-1>", self.double_click)
@@ -23,6 +23,16 @@ class ModuleSchema(Canvas):
                                        sys.stderr, workspace)
         self.load_existing_modules()
         self.selected_module = None
+        self.schema_scrollbar()
+
+    def schema_scrollbar(self):
+        hbar = Scrollbar(self, orient=HORIZONTAL)
+        hbar.pack(side=BOTTOM, fill=X)
+        hbar.config(command=self.xview)
+        vbar = Scrollbar(self, orient=VERTICAL)
+        vbar.pack(side=RIGHT, fill=Y)
+        vbar.config(command=self.yview)
+        self.config(xscrollcommand=hbar.set, yscrollcommand=vbar.set)
 
     def load_existing_modules(self):
         for(dirpath, dirnames, filenames) in os.walk(self.workspace):
@@ -55,8 +65,8 @@ class ModuleSchema(Canvas):
                 placement = data[module.classname]
                 if placement is not None:
                     for x in placement.keys():
-                        module.x = int(x)
-                        module.y = int(placement[x])
+                        module.x = int(float(x))
+                        module.y = int(float(placement[x]))
 
     def add_module(self, module, alert_collision=True):
         if not self.check_module_existence(module):
@@ -151,21 +161,27 @@ class ModuleSchema(Canvas):
         self.load_existing_modules()
 
     def double_click(self, event):
+        x = self.canvasx(event.x)
+        y = self.canvasy(event.y)
         for module in self.module_list:
-            if(ModuleSchema.hit_module(module, event.x, event.y)):
+            if(ModuleSchema.hit_module(module, x, y)):
                 ModuleSchema.edit_file(module)
                 return
 
     def select_instance(self, event):
+        x = self.canvasx(event.x)
+        y = self.canvasy(event.y)
         for module in self.module_list:
-            if(ModuleSchema.hit_module(module, event.x, event.y)):
+            if(ModuleSchema.hit_module(module, x, y)):
                 self.selected_module = module
                 return
 
     def drag_move(self, event):
+        x = self.canvasx(event.x)
+        y = self.canvasy(event.y)
         if self.selected_module is not None:
-            self.selected_module.x = event.x
-            self.selected_module.y = event.y
+            self.selected_module.x = x
+            self.selected_module.y = y
             self.redraw()
 
     def end_drag(self, event):
