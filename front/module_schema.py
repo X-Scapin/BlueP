@@ -34,6 +34,7 @@ class ModuleSchema(Canvas):
                     if first_classname is not None:
                         new_module = Module(self.workspace, title=file,
                                             main_class=first_classname)
+                        print("module " + new_module.py_file + " / " + new_module.classname)
                         self.add_module(new_module, alert_collision=False)
                     else:
                         print("Can't found class in file " + file)
@@ -84,7 +85,7 @@ class ModuleSchema(Canvas):
         for edge in self.edge_list:
             source_point = edge.get_source_point()
             target_point = edge.get_target_point()
-            w.create_line(source_point[0], source_point[1], target_point[0], target_point[1])
+            self.create_line(source_point[0], source_point[1], target_point[0], target_point[1])
 
     def draw_module(self, module):
         self.create_rectangle(module.x, module.y, module.x + Module.width,
@@ -140,7 +141,7 @@ class ModuleSchema(Canvas):
             for parent_class in module.parent_classes:
                 for cur_module in self.module_list:
                     if cur_module.classname == parent_class:
-                        edge_list.append(Edge(module, cur_module))
+                        self.edge_list.append(Edge(module, cur_module))
 
 
     def redraw(self):
@@ -177,14 +178,16 @@ class ModuleSchema(Canvas):
          self.selected_module = None
 
     def inspect_module(self, module):
-        """Flush inspect_console and get module class and object attributes"""
+        """Flush inspect_console, get module class, object attributes and heritage"""
 
         module_attributes = None
         self.inspect_console.flush_console()
         self.inspect_console.eval_command("import inspect")
         self.inspect_console.eval_command(
             "from " + module.title + " import " + module.classname)
-        print("inspect attributes of" + module.classname)
+
+        module.parent_classes = Module.get_parent_classes(module.py_file)
+
         self.inspect_console.eval_command("attributes = None")
         self.inspect_console.eval_command("""attributes = inspect.getmembers({classname},
                               lambda a:not(inspect.isroutine(a)))

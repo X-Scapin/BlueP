@@ -10,4 +10,4 @@ class Edge():
         return [self.module_source.x + Module.width /2, self.module_source.y + Module.height]
 
     def get_target_point(self):
-        return [self.module_source.x + Module.width /2, self.module_source.y]
+        return [self.module_target.x + Module.width /2, self.module_target.y]

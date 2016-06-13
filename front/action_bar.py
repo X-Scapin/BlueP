@@ -37,7 +37,7 @@ class ActionBarManager():
             self.schema_module.refresh()
 
     def save_action(self):
-        bluep_file = open(self.window.workspace + '\\' +'project.bluep', 'w')
+        bluep_file = open(self.window.workspace + '/' +'project.bluep', 'w')
         data = None
         for module in self.schema_module.module_list:
             if data is not None:
