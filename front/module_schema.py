@@ -45,7 +45,6 @@ class ModuleSchema(Canvas):
                     if first_classname is not None:
                         new_module = Module(self.workspace, title=file,
                                             main_class=first_classname)
-                        print("module " + new_module.py_file + " / " + new_module.classname)
                         self.add_module(new_module, alert_collision=False)
                     else:
                         print("Can't found class in file " + file)
@@ -196,6 +195,9 @@ class ModuleSchema(Canvas):
         module_attributes = None
         self.inspect_console.flush_console()
         self.inspect_console.eval_command("import inspect")
+        self.inspect_console.eval_command("import "+module.title)
+        self.inspect_console.eval_command("from importlib import reload")
+        self.inspect_console.eval_command(module.title + " = reload(" + module.title + ")")
         self.inspect_console.eval_command(
             "from " + module.title + " import " + module.classname)
 
