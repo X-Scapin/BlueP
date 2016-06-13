@@ -85,7 +85,7 @@ class ModuleSchema(Canvas):
         for edge in self.edge_list:
             source_point = edge.get_source_point()
             target_point = edge.get_target_point()
-            self.create_line(source_point[0], source_point[1], target_point[0], target_point[1])
+            self.create_line(source_point[0], source_point[1], target_point[0], target_point[1], arrow=FIRST)
 
     def draw_module(self, module):
         self.create_rectangle(module.x, module.y, module.x + Module.width,

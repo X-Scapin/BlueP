@@ -8,7 +8,7 @@ CLASS_TEMPLATE = os.getcwd() + "/resources/class.template"
 class Module():
     """Create with its module title or main class name"""
     width = 130
-    height = 170
+    height = 100
     # Arbitrary max for text display
     max_characters = 14
 
