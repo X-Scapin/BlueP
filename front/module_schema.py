@@ -104,7 +104,7 @@ class ModuleSchema(Canvas):
                 attribute_text = attribute[0]
                 if len(attribute_text) > Module.max_characters:
                     attribute_text = attribute_text[0:Module.max_characters] + "..."
-                if ay - 20 - module.y <= Module.height:
+                if ay + 25 <= Module.height + module.y:
                     self.create_text(ax, ay, text=attribute_text,
                                      anchor='nw', width=Module.width - 4)
                 elif feed_back is False:
@@ -117,7 +117,7 @@ class ModuleSchema(Canvas):
                 attribute_text = "s." + attribute[0]
                 if len(attribute_text) > Module.max_characters:
                     attribute_text = attribute_text[0:Module.max_characters] + "..."
-                if ay - 20 - module.y <= Module.height:
+                if ay + 25 <= Module.height + module.y:
                     self.create_text(ax, ay, text=attribute_text,
                                      anchor='nw', width=Module.width - 4)
                 elif feed_back is False:
