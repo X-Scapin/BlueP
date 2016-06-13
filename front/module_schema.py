@@ -101,9 +101,9 @@ class ModuleSchema(Canvas):
         if len(classname) > Module.max_characters:
             classname = classname[0:Module.max_characters] + "..."
         self.create_text(module.x + Module.width / 2,
-                         module.y + 10, text=classname)
+                         module.y + 10, text=classname, font = ("Times", 10, "bold"))
         self.create_text(module.x + Module.width / 2,
-                         module.y + Module.height - 10, text=module.title)
+                         module.y + Module.height - 10, text=module.title, font = ("Times", 8, "italic"))
         self.draw_attributes(module)
 
     def draw_attributes(self, module):
