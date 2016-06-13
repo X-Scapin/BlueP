@@ -32,6 +32,7 @@ class ModuleSchema(Canvas):
                     if first_classname is not None:
                         new_module = Module(self.workspace, title=file,
                                             main_class=first_classname)
+                        print("module " + new_module.py_file + " / " + new_module.classname)
                         self.add_module(new_module, alert_collision=False)
                     else:
                         print("Can't found class in file " + file)
@@ -157,13 +158,15 @@ class ModuleSchema(Canvas):
          self.selected_module = None
 
     def inspect_module(self, module):
-        """Flush inspect_console and get module class and object attributes"""
+        """Flush inspect_console, get module class, object attributes and heritage"""
 
         module_attributes = None
         self.inspect_console.flush_console()
         self.inspect_console.eval_command("import inspect")
         self.inspect_console.eval_command(
             "from " + module.title + " import " + module.classname)
+
+        module.parent_classes = Module.get_parent_classes(module.py_file)
 
         self.inspect_console.eval_command("attributes = None")
         self.inspect_console.eval_command("""attributes = inspect.getmembers({classname},

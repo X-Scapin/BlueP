@@ -31,6 +31,7 @@ class Module():
         self.y = 50
         self.py_file = None
         self.attributes = None
+        self.parent_classes = list()
         self.directory = directory
         self.compute_python_path()
 
@@ -111,7 +112,7 @@ class Module():
         try:
             module = open(file, 'r')
             module_content = module.read()
-            match = re.search("^class (.+)\(\s*\)\s*:",
+            match = re.search("^class (.+)\(.*\)\s*:",
                               module_content, re.MULTILINE)
             if match is not None:
                 first_classname = match.group(1)
@@ -121,3 +122,22 @@ class Module():
             print("File not found " + file)
 
         return first_classname
+
+    def get_parent_classes(file):
+        parent_classes = list()
+        try:
+            module = open(file, 'r')
+            module_content = module.read()
+            match = re.search("^class .+\((.*)\)\s*:",
+                              module_content, re.MULTILINE)
+            if match is not None:
+                print(match.group(0))
+                classes = match.group(1)
+                split_classes = classes.replace(" ", "").split(",")
+                parent_classes = split_classes
+            module.close()
+
+        except FileNotFoundError:
+            print("File not found " + file)
+
+        return parent_classes
