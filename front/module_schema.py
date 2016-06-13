@@ -3,6 +3,7 @@ import sys
 import subprocess
 from tkinter import *
 from front.module import Module
+from front.edge import Edge
 from front.dialogs import Popup
 from back.console import Console
 import json
@@ -12,6 +13,7 @@ class ModuleSchema(Canvas):
     def __init__(self, frame, workspace, background):
         Canvas.__init__(self, frame, background=background)
         self.module_list = list()
+        self.edge_list = list()
         self.bind("<Double-Button-1>", self.double_click)
         self.bind("<ButtonPress-1>", self.select_instance)
         self.bind("<B1-Motion>", self.drag_move)
@@ -36,7 +38,9 @@ class ModuleSchema(Canvas):
                     else:
                         print("Can't found class in file " + file)
             break
+        self.load_edges()
         self.load_existing_placement()
+
         self.redraw()
 
 
@@ -75,6 +79,12 @@ class ModuleSchema(Canvas):
     def display_modules(self):
         for module in self.module_list:
             self.draw_module(module)
+
+    def display_edges(self):
+        for edge in self.edge_list:
+            source_point = edge.get_source_point()
+            target_point = edge.get_target_point()
+            w.create_line(source_point[0], source_point[1], target_point[0], target_point[1])
 
     def draw_module(self, module):
         self.create_rectangle(module.x, module.y, module.x + Module.width,
@@ -125,13 +135,23 @@ class ModuleSchema(Canvas):
                 return True
         return False
 
+    def load_edges(self):
+        for module in self.module_list:
+            for parent_class in module.parent_classes:
+                for cur_module in self.module_list:
+                    if cur_module.classname == parent_class:
+                        edge_list.append(Edge(module, cur_module))
+
+
     def redraw(self):
         self.delete("all")
         self.display_modules()
+        self.display_edges()
 
     def refresh(self):
         self.delete("all")
         self.module_list = list()
+        self.edge_list = list()
         self.load_existing_modules()
 
 
@@ -164,7 +184,7 @@ class ModuleSchema(Canvas):
         self.inspect_console.eval_command("import inspect")
         self.inspect_console.eval_command(
             "from " + module.title + " import " + module.classname)
-
+        print("inspect attributes of" + module.classname)
         self.inspect_console.eval_command("attributes = None")
         self.inspect_console.eval_command("""attributes = inspect.getmembers({classname},
                               lambda a:not(inspect.isroutine(a)))
