@@ -16,8 +16,9 @@ class Console():
 
     def init_session(self):
         self.eval_command("import os")
-        self.eval_command("import back.interactive_console_utils")
         self.eval_command("import sys")
+        self.eval_command("import gc")
+        self.eval_command("import back.interactive_console_utils")
         self.eval_command("sys.path.append('" + self.workspace + "')")
 
     def set_locout(self):
@@ -46,6 +47,7 @@ class Console():
         self.console.runsource(filename=filename)
 
     def flush_console(self):
+        self.eval_command("gc.collect()")
         self.console = code.InteractiveConsole()
         self.init_session()
 
