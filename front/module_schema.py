@@ -19,12 +19,18 @@ class ModuleSchema(Canvas):
         self.bind("<ButtonPress-1>", self.select_instance)
         self.bind("<B1-Motion>", self.drag_move)
         self.bind("<ButtonRelease-1>", self.end_drag)
+        self.bind("<ButtonRelease-3>", self.popup)
+
         self.workspace = workspace
         self.inspect_console = Console(sys.stdout,
                                        sys.stderr, workspace)
         self.load_existing_modules()
         self.selected_module = None
+        self.module_to_delete = None
         self.schema_scrollbar()
+
+        self.menu = Menu(self, tearoff=0)
+        self.menu.add_command(label="Delete", command=self.delete_module)
 
     def schema_scrollbar(self):
         hbar = Scrollbar(self, orient=HORIZONTAL)
@@ -189,6 +195,20 @@ class ModuleSchema(Canvas):
 
     def end_drag(self, event):
          self.selected_module = None
+
+    def popup(self, event):
+        x = self.canvasx(event.x)
+        y = self.canvasy(event.y)
+        for module in self.module_list:
+            if(ModuleSchema.hit_module(module, x, y)):
+                self.module_to_delete = module
+                self.menu.post(int(event.x_root), int(event.y_root))
+                return
+
+    def delete_module(self):
+        if self.module_to_delete is not None:
+            os.remove(self.module_to_delete.py_file)
+            self.refresh()
 
     def inspect_module(self, module):
         """Flush inspect_console, get module class, object attributes and heritage"""
