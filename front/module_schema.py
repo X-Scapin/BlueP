@@ -17,7 +17,8 @@ class ModuleSchema(Canvas):
         self.bind("<B1-Motion>", self.drag_move)
         self.bind("<ButtonRelease-1>", self.end_drag)
         self.workspace = workspace
-        self.inspect_console = Console(workspace)
+        self.inspect_console = Console(sys.stdout,
+                                       sys.stderr, workspace)
         self.load_existing_modules()
         self.selected_module = None
 
@@ -58,8 +59,7 @@ class ModuleSchema(Canvas):
 
     def add_module(self, module, alert_collision=True):
         if not self.check_module_existence(module):
-            print("TORESTORE : inspect_module")
-            # module.attributes = self.inspect_module(module)
+            module.attributes = self.inspect_module(module)
             self.new_module_placement(module)
             self.module_list.append(module)
         elif alert_collision:
