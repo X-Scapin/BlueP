@@ -137,7 +137,7 @@ class ModuleSchema(Canvas):
             for parent_class in module.parent_classes:
                 for cur_module in self.module_list:
                     if cur_module.classname == parent_class:
-                        self.edge_list.append(Edge(module, cur_module))
+                        self.edge_list.append(Edge(cur_module, module))
 
     def redraw(self):
         self.delete("all")
