@@ -131,7 +131,6 @@ class Module():
             match = re.search("^class .+\((.*)\)\s*:",
                               module_content, re.MULTILINE)
             if match is not None:
-                print(match.group(0))
                 classes = match.group(1)
                 split_classes = classes.replace(" ", "").split(",")
                 parent_classes = split_classes
