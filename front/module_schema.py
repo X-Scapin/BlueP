@@ -44,8 +44,6 @@ class ModuleSchema(Canvas):
 
         self.redraw()
 
-
-
     def load_existing_placement(self):
         bluep_file = open(self.workspace + '/' + 'project.bluep', 'r')
         data = {}
@@ -59,8 +57,6 @@ class ModuleSchema(Canvas):
                     for x in placement.keys():
                         module.x = int(x)
                         module.y = int(placement[x])
-
-
 
     def add_module(self, module, alert_collision=True):
         if not self.check_module_existence(module):
@@ -108,7 +104,7 @@ class ModuleSchema(Canvas):
                 attribute_text = attribute[0]
                 if len(attribute_text) > Module.max_characters:
                     attribute_text = attribute_text[0:Module.max_characters] + "..."
-                if ay - 20 <= Module.height:
+                if ay - 20 - module.y <= Module.height:
                     self.create_text(ax, ay, text=attribute_text,
                                      anchor='nw', width=Module.width - 4)
                 elif feed_back is False:
@@ -121,7 +117,7 @@ class ModuleSchema(Canvas):
                 attribute_text = "s." + attribute[0]
                 if len(attribute_text) > Module.max_characters:
                     attribute_text = attribute_text[0:Module.max_characters] + "..."
-                if ay - 20 <= Module.height:
+                if ay - 20 - module.y <= Module.height:
                     self.create_text(ax, ay, text=attribute_text,
                                      anchor='nw', width=Module.width - 4)
                 elif feed_back is False:
@@ -143,7 +139,6 @@ class ModuleSchema(Canvas):
                     if cur_module.classname == parent_class:
                         self.edge_list.append(Edge(module, cur_module))
 
-
     def redraw(self):
         self.delete("all")
         self.display_modules()
@@ -154,7 +149,6 @@ class ModuleSchema(Canvas):
         self.module_list = list()
         self.edge_list = list()
         self.load_existing_modules()
-
 
     def double_click(self, event):
         for module in self.module_list:
