@@ -7,7 +7,7 @@ DIALOG_HEIGHT = 130
 
 class TextDialog(object):
 
-    def __init__(self, parent, title, field_name, optional_field_name=None):
+    def __init__(self, parent, title, field_name, optional_field_name=None, opt_placeholder=""):
         self.parent = parent
         if self.parent is None:
             self.dialog = Tk()
@@ -16,10 +16,14 @@ class TextDialog(object):
 
         self.dialog.wm_title(title)
 
-        field_frame = Frame(self.dialog)
+        fields_frame = Frame(self.dialog)
+        fields_frame.pack(side=TOP, fill=Y, expand=1)
+
+        field_frame = Frame(fields_frame)
         field_frame.pack(side=TOP, fill=Y, expand=1)
-        opt_field_frame = Frame(self.dialog)
-        opt_field_frame.pack(side=TOP, fill=Y, expand=1)
+        if optional_field_name is not None:
+            opt_field_frame = Frame(fields_frame)
+            opt_field_frame.pack(side=BOTTOM, fill=Y, expand=1)
 
         button_frame = Frame(self.dialog)
         button_frame.pack(side=BOTTOM)
@@ -34,6 +38,7 @@ class TextDialog(object):
             opt_label = Label(opt_field_frame, text=optional_field_name)
             opt_label.pack(side=LEFT)
             self.opt_entry = Entry(opt_field_frame, width=50)
+            self.opt_entry.insert(0, opt_placeholder)
             self.opt_entry.pack(side=RIGHT)
         else:
             self.opt_entry = None
