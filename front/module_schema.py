@@ -62,17 +62,18 @@ class ModuleSchema(Canvas):
 
     def load_existing_placement(self):
         bluep_file = open(self.workspace + '/' + 'project.bluep', 'r')
-        data = {}
+        data = None
         if os.stat(bluep_file.name).st_size != 0:
             data = json.load(bluep_file)
         bluep_file.close()
-        for module in self.module_list:
-            if module.classname in data:
-                placement = data[module.classname]
-                if placement is not None:
-                    for x in placement.keys():
-                        module.x = int(float(x))
-                        module.y = int(float(placement[x]))
+        if data is not None:
+            for module in self.module_list:
+                if module.classname in data:
+                    placement = data[module.classname]
+                    if placement is not None:
+                        for x in placement.keys():
+                            module.x = int(float(x))
+                            module.y = int(float(placement[x]))
 
     def add_module(self, module, alert_collision=True):
         if not self.check_module_existence(module):
