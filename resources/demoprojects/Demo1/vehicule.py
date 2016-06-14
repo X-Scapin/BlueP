@@ -1,7 +1,7 @@
 import sys
 
 
-class Véhicule():
+class Vehicule():
     """ New class Véhicule"""
 
     def __init__(self, owner="Unknown"):
