@@ -11,17 +11,14 @@ class Parking():
 
     def __init__(self):
         self.vehicules = list()
-        self.name = "Vinci"
 
-        twingo = Twingo()
+        twingo = Twingo("twingo")
         twingo.owner = "Mark"
 
-        er6 = ER6()
+        er6 = ER6("er6")
         er6.owner = "Julian"
-        er6.name = "er6"
-        glad = Gladius()
+        glad = Gladius("gladius")
         glad.owner = "Pierre"
-        glad.name = "gladius"
 
         self.vehicules.append(twingo)
         self.vehicules.append(er6)
@@ -38,7 +35,7 @@ class Parking():
             if isinstance(vehicule, Moto):
                 vehicule.print_features()
             else:
-                print("Voiture has different features")
+                print("Car has different features")
 
     def print_global_message():
         print(Parking.global_message)

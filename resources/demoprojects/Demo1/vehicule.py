@@ -2,7 +2,7 @@ import sys
 
 
 class Vehicule():
-    """ New class Véhicule"""
+    """ New class Vehicule"""
 
     def __init__(self, owner="Unknown"):
         self.owner = owner

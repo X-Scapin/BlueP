@@ -1,12 +1,14 @@
 import sys
 from vehicule import Vehicule
 
-class Voiture(Vehicule):
+class Car(Vehicule):
     """ New class Voiture"""
 
     wheel_numbers = 4
 
-    def __init__(self):
+    def __init__(self, name):
+        self.name = name
+        self.doors = {}
         self.default_message = "Hello everybody !"
 
     def print_value(self, sender):

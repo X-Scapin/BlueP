@@ -6,8 +6,8 @@ class Moto(Vehicule):
 
     wheel_numbers = 2
 
-    def __init__(self):
-        self.name = "moto"
+    def __init__(self, name):
+        self.name = name
         self.features = list()
 
     def print_features(self):

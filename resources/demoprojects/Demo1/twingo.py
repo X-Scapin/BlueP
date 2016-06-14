@@ -1,8 +1,9 @@
 import sys
-from voiture import Voiture
+from car import Car
 
-class Twingo(Voiture):
+class Twingo(Car):
     """ New class Twingo"""
 
-    def __init__(self):
-        self.name = "Default Twingo"
+    def __init__(self, name):
+        Car.__init__(self, name)
+        self.twingo_model = None
