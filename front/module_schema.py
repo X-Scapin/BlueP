@@ -233,7 +233,7 @@ class ModuleSchema(Canvas):
             class_attributes = self.inspect_console.eval_command("""[a for a in attributes if not(a[0].startswith('_'))]""")
 
             instance_attributes = Module.get_instance_attributes(
-                module.py_file)
+                module.py_file);
             module_attributes = {'class_attributes': eval(class_attributes), 'instance_attributes': instance_attributes}
         else:
             print("Errors in module : " + module.title)
