@@ -226,12 +226,12 @@ class ModuleSchema(Canvas):
         self.inspect_console.eval_command("""attributes = inspect.getmembers({classname},
                               lambda a:not(inspect.isroutine(a)))
                               """.format(classname=module.classname))
+
         attributes_exist = self.inspect_console.eval_command(
             """'true' if attributes is not None else 'false'""")
 
         if eval(attributes_exist) == 'true':
-            class_attributes = self.inspect_console.eval_command("""[a for a in attributes if not(a[0].startswith('_'))]""")
-
+            class_attributes = self.inspect_console.eval_command("""[a for a in attributes if not(a[0].startswith('_')) and isinstance(a[1], str)]""")
             instance_attributes = Module.get_instance_attributes(
                 module.py_file);
             module_attributes = {'class_attributes': eval(class_attributes), 'instance_attributes': instance_attributes}

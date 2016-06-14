@@ -16,7 +16,10 @@ class $classname($parent_class):
     def print_global_message():
         print($classname.global_message)
 
-if __name__ == '__main__':
+    def main():
         $classname.print_global_message()
         $classinstance = $classname()
         $classinstance.print_value("$classinstance")
+
+if __name__ == '__main__':
+        $classname.main()
