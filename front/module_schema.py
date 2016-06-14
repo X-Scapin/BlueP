@@ -120,7 +120,7 @@ class ModuleSchema(Canvas):
             ay = module.y + 25
             feed_back = False
             for attribute in ca:
-                attribute_text = attribute[0]
+                attribute_text = attribute
                 if len(attribute_text) > Module.max_characters:
                     attribute_text = attribute_text[0:Module.max_characters] + "..."
                 if ay + 25 <= Module.height + module.y:
@@ -231,7 +231,7 @@ class ModuleSchema(Canvas):
             """'true' if attributes is not None else 'false'""")
 
         if eval(attributes_exist) == 'true':
-            class_attributes = self.inspect_console.eval_command("""[a for a in attributes if not(a[0].startswith('_')) and isinstance(a[1], str)]""")
+            class_attributes = self.inspect_console.eval_command("""[a[0] for a in attributes if not(a[0].startswith('_'))]""")
             instance_attributes = Module.get_instance_attributes(
                 module.py_file);
             module_attributes = {'class_attributes': eval(class_attributes), 'instance_attributes': instance_attributes}
