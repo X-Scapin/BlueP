@@ -1,7 +1,7 @@
 import sys
-from véhicule import Véhicule
+from vehicule import Vehicule
 
-class Voiture(Véhicule):
+class Voiture(Vehicule):
     """ New class Voiture"""
 
     wheel_numbers = 4

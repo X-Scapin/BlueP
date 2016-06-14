@@ -13,8 +13,8 @@ class Parking():
         self.vehicules = list()
         self.name = "Vinci"
 
-        twingo = Twingo("")
-        twingo.owner("Mark")
+        twingo = Twingo()
+        twingo.owner = "Mark"
 
         er6 = ER6()
         er6.owner = "Julian"
@@ -42,6 +42,3 @@ class Parking():
 
     def print_global_message():
         print(Parking.global_message)
-
-# parking = Parking()
-# parking.display_vehicules_features()
