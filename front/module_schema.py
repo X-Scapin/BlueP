@@ -107,6 +107,7 @@ class ModuleSchema(Canvas):
             classname = classname[0:Module.max_characters] + "..."
         self.create_text(module.x + Module.width / 2,
                          module.y + 10, text=classname, font = ("Times", 10, "bold"))
+        self.create_line(module.x, module.y + 17, module.x + Module.width, module.y + 17)
         self.create_text(module.x + Module.width / 2,
                          module.y + Module.height - 10, text=module.title, font = ("Times", 8, "italic"))
         self.draw_attributes(module)
@@ -214,9 +215,7 @@ class ModuleSchema(Canvas):
 
         module_attributes = None
         self.inspect_console.flush_console()
-        self.inspect_console.eval_command("import inspect")
         self.inspect_console.eval_command("import "+module.title)
-        self.inspect_console.eval_command("from importlib import reload")
         self.inspect_console.eval_command(module.title + " = reload(" + module.title + ")")
         self.inspect_console.eval_command(
             "from " + module.title + " import " + module.classname)
@@ -231,13 +230,11 @@ class ModuleSchema(Canvas):
             """'true' if attributes is not None else 'false'""")
 
         if eval(attributes_exist) == 'true':
-            class_attributes = self.inspect_console.eval_command("""[a for a in attributes if not(a[0].startswith('__')
-            and a[0].endswith('__'))]""")
+            class_attributes = self.inspect_console.eval_command("""[a for a in attributes if not(a[0].startswith('_'))]""")
 
             instance_attributes = Module.get_instance_attributes(
                 module.py_file)
-            module_attributes = {'class_attributes': eval(class_attributes),
-                                 'instance_attributes': instance_attributes}
+            module_attributes = {'class_attributes': eval(class_attributes), 'instance_attributes': instance_attributes}
         else:
             print("Errors in module : " + module.title)
 

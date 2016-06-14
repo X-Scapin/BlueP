@@ -18,6 +18,8 @@ class Console():
         self.eval_command("import os")
         self.eval_command("import sys")
         self.eval_command("import gc")
+        self.eval_command("import inspect")
+        self.eval_command("from importlib import reload")
         self.eval_command("import back.interactive_console_utils")
         self.eval_command("sys.path.append('" + self.workspace + "')")
 
@@ -31,7 +33,10 @@ class Console():
         sys.stderr = self.stderr
 
     def get_output(self):
-        return self.locout.getvalue()
+        if self.locout.closed:
+            return ''
+        else:
+            return self.locout.getvalue()
 
     def eval_command(self, command):
         self.set_locout()

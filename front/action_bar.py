@@ -59,7 +59,6 @@ class ActionBarManager():
 
     def compile_action(self):
         self.window.execution_frame.console.flush_console()
-        self.window.execution_frame.console.eval_command("import importlib")
         for module in self.schema_module.module_list:
             self.window.execution_frame.console.eval_command("import " + module.title)
             self.window.execution_frame.console.eval_command("importlib.reload("+module.title+")")
